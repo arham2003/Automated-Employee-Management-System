@@ -11,7 +11,7 @@ import { addDepartment, deleteDepartment, getAllDepartments, getAllEmployees, up
 import { deleteAttendance, getAttendanceByDate, getAttendanceByEmpIdAndDate, getAttendanceByMonth, submitAttendance, updateAttendance } from "./Routes/attendance/attendance.js";
 import { addSubmission, getEmployeeProjectParts, updateProjectPartStatusById } from "./Routes/EmployeePanel/AssignedWork.js";
 import { getEmployeeAttendance, markAttendanceAsPresent } from "./Routes/EmployeePanel/EmpAttendance.js";
-import { checkPaymentStatus, getEmployeePayments, getEmployeeSalaries, getPayments, paySalary } from "./Routes/Salaries/salaries.js";
+import { checkPaymentStatus, deletePayment, getEmployeePayments, getEmployeeSalaries, getPayments, paySalary, updateEmployeeBonus, updatePayment } from "./Routes/Salaries/salaries.js";
 import { getWorkSubmissions, updateSubmissionStatus } from "./Routes/SubmittedWork/SubmittedWork.js";
 import { getApprovedProjectParts, getEmployeeContribution } from "./Routes/EmployeePanel/Dashboard.js";
 
@@ -95,6 +95,9 @@ app.post('/pay_salary', paySalary); // Endpoint to submit salary data
 app.get('/get_payments', getPayments); // Endpoint to get all payment records
 app.get('/check_payment_status',checkPaymentStatus)
 app.get('/get_empPayments',getEmployeePayments)
+app.put('/update_bonus',updateEmployeeBonus)
+app.delete('/delete_payment/:paymentId',deletePayment)
+app.put('/update_payment',updatePayment)
 
 // Submitted Work
 app.get('/get_submittedWork',getWorkSubmissions)

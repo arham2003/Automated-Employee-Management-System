@@ -1,10 +1,12 @@
 {
   "dependencies": {
+    "chart.js": "^4.4.6",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.21.1",
     "mysql2": "^3.11.4",
     "nodemailer": "^6.9.16",
+    "react-chartjs-2": "^5.2.0",
     "react-toastify": "^10.0.6"
   }
 }

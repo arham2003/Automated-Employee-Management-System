@@ -104,5 +104,77 @@ export const checkPaymentStatus = (req, res) => {
     });
 };
 
+export const updateEmployeeBonus = (req, res) => {
+    const { employeeId, month, year } = req.body;
 
-  
+    // Check if required parameters are present
+    if (!employeeId || !month || !year) {
+        return res.status(400).json({ message: "Missing required fields" });
+    }
+
+    // Format the month and year into MM/YYYY format
+    const paymentDate = `${('0' + (new Date(`1 ${month} ${year}`).getMonth() + 1)).slice(-2)}/${year}`;
+
+    // Update the query to match the MM/YYYY format for payment_date
+    const updateBonusQuery = `
+        UPDATE payments
+        SET bonus = bonus + 50
+        WHERE empid = ? AND payment_date = ?
+    `;
+
+    // Execute the query with employeeId and paymentDate in MM/YYYY format
+    con.query(updateBonusQuery, [employeeId, paymentDate], (err, result) => {
+        if (err) {
+            console.error("Error updating bonus:", err);  // Log the error for debugging
+            return res.status(500).json({ message: "Error updating bonus", error: err });
+        }
+
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ message: "Employee or record not found" });
+        }
+
+        return res.status(200).json({ message: "Bonus updated successfully", result });
+    });
+};
+
+export const deletePayment = (req, res) => {
+    const { paymentId } = req.params;  // Extract payment_id from the URL params
+
+    // SQL query to delete the record by payment_id
+    const query = 'DELETE FROM payments WHERE payment_id = ?';
+
+    // Execute the query
+    con.query(query, [paymentId], (err, results) => {
+        if (err) {
+            return res.status(500).json({ error: err.message });  // Send error if query fails
+        }
+        if (results.affectedRows === 0) {
+            return res.status(404).json({ message: 'Payment record not found' }); // If no record was deleted
+        }
+        res.status(200).json({ message: 'Payment record deleted successfully' });  // Success message
+    });
+};
+
+export const updatePayment = (req, res) => {
+    const { empName, salary, bonus, status } = req.body; // Getting data from the request body
+    const payment_id = req.body.payment_id; // Assuming `payment_id` is being sent in the request body along with other details
+
+    // SQL query to update the salary record
+    const query = `UPDATE payments 
+                   SET salary = ?, bonus = ?, status = ? 
+                   WHERE payment_id = ?`;
+
+    // Execute the query
+    con.query(query, [salary, bonus, status, payment_id], (err, result) => {
+        if (err) {
+            return res.status(500).json({ error: err.message });
+        }
+
+        // Check if any record was affected (meaning the update was successful)
+        if (result.affectedRows > 0) {
+            return res.status(200).json({ message: `Payment record for ${empName} updated successfully` });
+        } else {
+            return res.status(404).json({ message: 'Payment record not found' });
+        }
+    });
+};
