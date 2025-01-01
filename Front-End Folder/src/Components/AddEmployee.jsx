@@ -31,29 +31,57 @@ import { toast, ToastContainer } from "react-toastify";
         .catch((err) => toast.error("Error fetching departments!"));
     }, []);
   
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
       e.preventDefault();
-      const formData = new FormData();
-      formData.append("name", employee.name);
-      formData.append("email", employee.email);
-      formData.append("password", employee.password);
-      formData.append("address", employee.address);
-      formData.append("salary", employee.salary);
-      formData.append("image", employee.image);
-      formData.append("department_id", employee.department_id || "");
-      formData.append("post", employee.post);
-  
-      axios
-        .post("http://localhost:3000/auth/add_employee", formData)
-        .then((result) => {
-          if (result.data.Status) {
-            toast.success(result.data.Message || "Employee added and Email Sent successfully!");
-            setTimeout(() => navigate("/dashboard/employee"), 2000);
-          } else {
-            toast.error(result.data.Error);
-          }
-        })
-        .catch((err) => toast.error("Error adding employee!"));
+    
+      if (!employee.email) {
+        toast.error("Email is required!");
+        return;
+      }
+    
+      try {
+        // Check if email exists
+        const emailCheckResponse = await axios.post(
+          `http://localhost:3000/auth/check_email`,
+          { email: employee.email },
+          { withCredentials: true } // Ensure credentials (cookies) are included
+        );
+    
+        if (emailCheckResponse.data.exists) {
+          // If email exists, show a toast error and stop submission
+          toast.error("Email already exists! Please use a different email.");
+          return;
+        }
+    
+        // Proceed with adding the employee
+        const formData = new FormData();
+        formData.append("name", employee.name);
+        formData.append("email", employee.email);
+        formData.append("password", employee.password);
+        formData.append("address", employee.address);
+        formData.append("salary", employee.salary);
+        if (employee.image) {
+          formData.append("image", employee.image);
+        }
+        formData.append("department_id", employee.department_id || "");
+        formData.append("post", employee.post);
+    
+        const addResponse = await axios.post(
+          `${import.meta.env.VITE_BACKEND_URL}/auth/add_employee`,
+          formData,
+          { withCredentials: true }
+        );
+    
+        if (addResponse.data.Status) {
+          toast.success(addResponse.data.Message || "Employee added successfully!");
+          setTimeout(() => navigate("/dashboard/employee"), 2000);
+        } else {
+          toast.error(addResponse.data.Error);
+        }
+      } catch (err) {
+        // toast.error("Error adding employee!");
+        console.log(err);
+      }
     };
 
   return (

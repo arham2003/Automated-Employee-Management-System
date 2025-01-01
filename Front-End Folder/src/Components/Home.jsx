@@ -10,7 +10,8 @@ const Home = () => {
   const [employeeTotal, setEmployeeTotal] = useState(0);
   const [salaryTotal, setSalaryTotal] = useState(0);
   const [admins, setAdmins] = useState([]);
-  const [topEmployee, setTopEmployee] = useState(null);
+  const [topEmployees, setTopEmployees] = useState([]);  // Array to store top 5 employees
+
 
   useEffect(() => {
     adminCount();
@@ -58,11 +59,12 @@ const Home = () => {
 
   const fetchTopEmployee = () => {
     axios.get('http://localhost:3000/auth/top_employee').then((result) => {
-      if (result.data.Status) {
-        setTopEmployee(result.data.Result[0]);
-      }
+        if (result.data.Status) {
+            setTopEmployees(result.data.Result);  // Store the result as an array
+        }
     });
-  };
+};
+
 
   // Data for Bar Chart
   const barData = {
@@ -84,6 +86,20 @@ const Home = () => {
         label: '# of People',
         data: [adminTotal, employeeTotal],
         backgroundColor: ['rgba(75, 192, 192, 0.6)', 'rgba(153, 102, 255, 0.6)'],
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  // Prepare data for the Bar chart
+  const barData2 = {
+    labels: topEmployees.map(employee => employee.name),  // Employee names as labels
+    datasets: [
+      {
+        label: 'Salaries',
+        data: topEmployees.map(employee => employee.salary),  // Salaries as data
+        backgroundColor: 'rgba(54, 162, 235, 0.6)',  // Blue color for the bars
+        borderColor: 'rgba(54, 162, 235, 1)',
         borderWidth: 1,
       },
     ],
@@ -124,7 +140,7 @@ const Home = () => {
         </div>
       </div>
       <div className="mt-4 px-5 pt-3">
-        <h3>List of Admins</h3>
+        <h3 className='text-center'>List of Admins</h3>
         <table className="table">
           <thead>
             <tr>
@@ -145,8 +161,8 @@ const Home = () => {
           </tbody>
         </table>
       </div>
-      <div className="mt-5">
-        <h3>Charts</h3>
+      <div className="mt-4 px-5 pt-3">
+        <h3 className='text-center'>Stats</h3>
         <div className="d-flex justify-content-around mt-4">
           <div className="w-50">
             <Bar data={barData} />
@@ -155,20 +171,19 @@ const Home = () => {
             <Pie data={pieData} />
           </div>
         </div>
-        <div className="mt-4">
-          <h4>Employee with Maximum Contribution</h4>
-          {topEmployee ? (
-            <p>
-              Name: {topEmployee.name} <br />
-              Salary: ${topEmployee.salary}
-            </p>
-          ) : (
-            <p>Loading...</p>
-          )}
-        </div>
+        <div className="mt-4 px-5 pt-3">
+    <h3 className="text-center">Top Employees with Highest Salaries</h3>
+    <div className="d-flex justify-content-around mt-4">
+          <div className="w-50">
+            <Bar data={barData2} />
+          </div>
       </div>
+    </div>
+    </div>
     </div>
   );
 };
+
+
 
 export default Home;

@@ -67,6 +67,27 @@ const upload = multer({
 })
 // end imag eupload 
 
+router.post('/check_email', (req, res) => {
+    const { email } = req.body;
+    if (!email) {
+      return res.status(400).json({ Error: "Email is required!" });
+    }
+  
+    const sql = "SELECT email FROM employee WHERE email = ?";
+    con.query(sql, [email], (err, result) => {
+      if (err) {
+        return res.status(500).json({ Error: "Database query error!" });
+      }
+  
+      if (result.length > 0) {
+        return res.json({ exists: true }); // Email already exists
+      } else {
+        return res.json({ exists: false }); // Email is unique
+      }
+    });
+  });
+  
+
 router.post('/add_employee', upload.single('image'), (req, res) => {
     const sql = `INSERT INTO employee 
     (name, email, password, address, salary, image, department_id, post) 
@@ -222,12 +243,13 @@ router.get('/salary_count', (req, res) => {
 })
 
 router.get('/top_employee', (req, res) => {
-    const sql = "SELECT name, salary FROM employee ORDER BY salary DESC LIMIT 1";
+    const sql = "SELECT name, salary FROM employee ORDER BY salary DESC LIMIT 5";  // Fetch top 5 employees
     con.query(sql, (err, result) => {
         if (err) return res.json({ Status: false, Error: "Query Error: " + err });
         return res.json({ Status: true, Result: result });
     });
 });
+
 
 
 router.get('/admin_records', (req, res) => {

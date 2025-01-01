@@ -1,11 +1,12 @@
-import './App.css';
+
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Login from './Components/Login';
 import Dashboard from './Components/Dashboard';
 import Home from './Components/Home';
 import Employee from './Components/Employee';
-import Category from './Components/Category';
 import SubmittedWork from './Components/Profile';
 import AddCategory from './Components/AddCategory';
 import AddEmployee from './Components/AddEmployee';
@@ -18,16 +19,11 @@ import Projects from './Components/projects/project';
 import ProjectForm from './Components/projects/ProjectForm';
 import ProjectDetail from './Components/projects/ProjectDetail';
 import ProjectPhaseForm from './Components/projects/ProjectPhaseForm';
-import Attendance from './Components/Attendance/Attendance';
 import AttendanceForm from './Components/Attendance/AttendanceForm';
 import AttendanceRecords from './Components/Attendance/AttendanceRecords';
 import UpdateForm from './Components/Attendance/UpdateForm';
 import Customer from './Components/Customer/Customer';
 import Departments from './Components/Departments/Departments';
-
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-
 import { EmployeeProvider } from './Components/EmployeePanel/EmployeeContext';
 import AssignedWork from './Components/EmployeePanel/AssignedWork';
 import EmpAttendance from './Components/EmployeePanel/EmpAttendance';
@@ -72,12 +68,15 @@ function App() {
             <Route path="/dashboard/add_employee" element={<AddEmployee />}></Route>
             <Route path="/dashboard/edit_employee/:id" element={<EditEmployee />}></Route>
             <Route path="/dashboard/salaries" element={<SalaryTracker />}></Route>
-
+            
           </Route>
+          
         </Routes>
-        <ToastContainer />
+        
       </BrowserRouter>
+      <ToastContainer/>
     </EmployeeProvider>
+    
   );
 }
 
