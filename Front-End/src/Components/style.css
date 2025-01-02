@@ -1,9 +1,33 @@
 .loginPage {
-    background: url('Images/employeems.jpeg');
-    background: linear-gradient(rgba(11, 11, 11, 0.5), rgba(10, 10, 10, 0.5)), url("Images/employeems.jpeg");
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: 100% 120%;
+  background: url('/Images/employeems.webp');
+  background: linear-gradient(rgba(11, 11, 11, 0.5), rgba(10, 10, 10, 0.5)), url("/Images/employeems.webp");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100% 120%;
+}
+
+.loginForm {
+  background-color: rgba(1, 32, 93, 0.6);
+  color: white;
+  width: 100%; /* Make form take full width of the screen */
+  max-width: 400px; /* Max width for large screens like desktops */
+  margin: 0 auto; /* Center the form horizontally */
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+@media (max-width: 768px) { /* For tablets */
+  .loginForm {
+      padding: 15px;
+      max-width: 90%; /* Form takes up 90% of screen on tablets */
+  }
+}
+
+@media (max-width: 480px) { /* For mobile phones */
+  .loginForm {
+      padding: 10px;
+      max-width: 95%; /* Form takes up 95% of screen on smaller devices */
+  }
 }
 
 .notifications-card {
