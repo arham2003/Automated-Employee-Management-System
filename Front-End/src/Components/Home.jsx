@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Bar, Pie } from 'react-chartjs-2';
+import { toast } from 'react-hot-toast';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement } from 'chart.js';
 
 ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement);
@@ -12,14 +13,32 @@ const Home = () => {
   const [admins, setAdmins] = useState([]);
   const [topEmployees, setTopEmployees] = useState([]);  // Array to store top 5 employees
 
+  
 
   useEffect(() => {
+    displayToastOnce();
     adminCount();
     employeeCount();
     salaryCount();
     AdminRecords();
     fetchTopEmployee();
   }, []);
+
+
+  // Function to display the toast only once
+  const displayToastOnce = () => {
+    if (!localStorage.getItem('toastShown')) {
+      toast('Hello Admin!', {
+        icon: '👏',
+        style: {
+          borderRadius: '10px',
+          background: '#333',
+          color: '#fff',
+        },
+      });
+      localStorage.setItem('toastShown', 'true');
+    }
+  };
 
   const AdminRecords = () => {
     axios.get('http://localhost:3000/auth/admin_records').then((result) => {

@@ -38,19 +38,13 @@
     height: 100%;
     background-color: #fff;
     box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
-    transition: right 1s ease-in-out; /* Smooth slide transition */
+    transition: right 0.5s ease-in-out; /* Smooth slide transition */
     z-index: 1050;
   }
   
   .notifications-card.show {
     right: 0; /* Slide in from the right */
   }
-  
-
-.loginForm {
-    background-color: rgba(1, 32, 93, 0.6);
-    color: white;
-}
 
 /* Style for individual list items */
 #menu li {

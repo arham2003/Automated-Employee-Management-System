@@ -1,7 +1,9 @@
 
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+// import { toast, ToastContainer } from "react-toastify";
+// import "react-toastify/dist/ReactToastify.css";
+import { Toaster } from 'react-hot-toast';
+
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Login from './Components/Login';
 import Dashboard from './Components/Dashboard';
@@ -49,9 +51,11 @@ function App() {
 
           <Route path="/dashboard" element={
             <PrivateRoute>
+              <Toaster position="top-center" reverseOrder={false}/>
               <Dashboard />
             </PrivateRoute>
           }>
+            
             <Route path="" element={<Home />}></Route>
             <Route path="/dashboard/employee" element={<Employee />}></Route>
             <Route path="/dashboard/customer" element={<Customer />}></Route>
@@ -74,7 +78,7 @@ function App() {
         </Routes>
         
       </BrowserRouter>
-      <ToastContainer/>
+      
     </EmployeeProvider>
     
   );

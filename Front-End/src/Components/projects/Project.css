@@ -4,29 +4,6 @@
   margin: 0 auto; /* Center align the container */  
 }
 
-/* Style for Notifications Card */
-.notifications-card {
-  position: fixed;
-  top: 50px;  /* Adjust this value to place it in line with your header */
-  right: -300px; /* Initially hidden off-screen to the left */
-  width: 250px;
-  border-radius: 5px;
-  height: 100%; /* Make it take full height */
-  transition: all 0.3s ease-in-out; /* Smooth slide effect */
-  z-index: 1000;
-  background-color: white;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-/* Show the card when expanded */
-.notifications-card.expanded {
-  right: 0;  /* Move the card into view */
-}
-
-.notifications-card.collapsed {
-  right: -300px; /* Move the card off-screen to the left when collapsed */
-}
-
 .header-container h3 {
   font-size: 2rem;
   color: #333;
