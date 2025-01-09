@@ -21,7 +21,9 @@ const app = express()
 
 const allowedOrigins = [
     "http://localhost:3000", // Local development
+    "https://automated-employee-management-system.vercel.app/",
     "https://automated-employee-management-system.vercel.app", // Deployed frontend
+    "https://automated-employee-management-system.onrender.com/",
     "https://automated-employee-management-system.onrender.com",
   ];
   
