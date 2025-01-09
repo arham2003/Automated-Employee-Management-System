@@ -1,12 +1,9 @@
-import mysql from 'mysql';
+import mysql from 'mysql2';
+import 'dotenv/config';
 
-const con = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "",
-    database: "employeems01",
-    port: 3377  // Specify the correct port
-});
+const urlDB = `mysql://${process.env.MYSQLUSER}:${process.env.MYSQLPASSWORD}@${process.env.MYSQLHOST}:${process.env.MYSQLPORT}/${process.env.MYSQLDATABASE} `
+
+const con = mysql.createConnection(urlDB);
 
 con.connect(function(err) {
     if (err) {
