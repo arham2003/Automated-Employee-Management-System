@@ -7,7 +7,7 @@ const Category = () => {
     const [category, setCategory] = useState([])
 
     useEffect(()=> {
-        axios.get('http://localhost:3000/auth/departments')
+        axios.get(`${import.meta.env.VITE_BACKEND_URL}/auth/departments`)
         .then(result => {
             if(result.data.Status) {
                 setCategory(result.data.Result);

@@ -25,7 +25,7 @@ function ProjectPhaseForm() {
     console.log("Form Data: ", newPhase); 
     const fetchProjects = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/get_project_ids');
+        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/get_project_ids`);
         setProjects(response.data);  // Store the fetched projects in the state
       } catch (error) {
         console.error('Error fetching projects:', error.message);
@@ -34,7 +34,7 @@ function ProjectPhaseForm() {
 
     const fetchEmployees = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/auth/employee');
+        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/auth/employee`);
         setEmployees(response.data.Result);  // Store the fetched employees in the state
       } catch (error) {
         console.error('Error fetching employees:', error.message);
@@ -65,7 +65,7 @@ function ProjectPhaseForm() {
     }
 
     try {
-      const url = `http://localhost:3000/add_projectpart/${newPhase.projectId}`;
+      const url = `${import.meta.env.VITE_BACKEND_URL}/add_projectpart/${newPhase.projectId}`;
       const response = await axios.post(url, newPhase);
 
       console.log(response.data);

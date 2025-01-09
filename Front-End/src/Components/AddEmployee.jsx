@@ -20,7 +20,7 @@ import { toast } from 'react-hot-toast';
   
     useEffect(() => {
       axios
-        .get("http://localhost:3000/auth/departments")
+        .get(`${import.meta.env.VITE_BACKEND_URL}/auth/departments`)
         .then((result) => {
           if (result.data.Status) {
             setCategory(result.data.Result);
@@ -42,7 +42,7 @@ import { toast } from 'react-hot-toast';
       try {
         // Check if email exists
         const emailCheckResponse = await axios.post(
-          `http://localhost:3000/auth/check_email`,
+          `${import.meta.env.VITE_BACKEND_URL}/auth/check_email`,
           { email: employee.email },
           { withCredentials: true } // Ensure credentials (cookies) are included
         );

@@ -18,7 +18,7 @@ function ProjectPartForm({ newPart, setNewPart, handlePartChange, handleFormSubm
     console.log(selectedPartId)
     const fetchProjects = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/get_project_ids');
+        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/get_project_ids`);
         setProjects(response.data); // Assuming response.data is an array of objects with id and projectName
       } catch (error) {
         console.error('Error fetching projects:', error.message);
@@ -35,7 +35,7 @@ function ProjectPartForm({ newPart, setNewPart, handlePartChange, handleFormSubm
       // Fetch the selected part data to pre-fill the form when editing
       const fetchPartData = async () => {
         try {
-          const response = await axios.get(`http://localhost:3000/get_projectpart/${selectedPartId}`);
+          const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/get_projectpart/${selectedPartId}`);
           const partData = response.data;
 
           // Ensure date format is correct
@@ -59,12 +59,12 @@ function ProjectPartForm({ newPart, setNewPart, handlePartChange, handleFormSubm
     try {
       if (isEditing) {
         // Update part logic for editing
-        const response = await axios.put(`http://localhost:3000/update_projectpart/10`, newPart);
+        const response = await axios.put(`${import.meta.env.VITE_BACKEND_URL}/update_projectpart/10`, newPart);
         console.log(response.data);
         alert('Part updated successfully!');
       } else {
         // Send POST request to backend to add new part
-        const response = await axios.post(`http://localhost:3000/add_projectpart/${newPart.projectId || projectId}`, newPart);
+        const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/add_projectpart/${newPart.projectId || projectId}`, newPart);
         console.log(response.data);
         alert('Part added successfully!');
       }

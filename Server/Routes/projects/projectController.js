@@ -41,34 +41,47 @@ export const addProject = (req, res) => {
   
     // Check if all required fields are present
     if (!id || !projectName || !startDate || !expectedDate || !budget || !status) {
-      return res.status(400).json({ error: 'All fields are required' });
+        return res.status(400).json({ error: 'All fields are required' });
     }
   
     // SQL query to update the project details
     const query = `
-      UPDATE projects 
-      SET projectName = ?, startDate = ?, expectedDate = ?, budget = ?, status = ? 
-      WHERE id = ?
+        UPDATE projects 
+        SET projectName = ?, startDate = ?, expectedDate = ?, budget = ?, status = ? 
+        WHERE id = ?
     `;
   
-    // Run the query with the provided data
+    // Run the query to update the project
     con.query(query, [projectName, startDate, expectedDate, budget, status, id], (err, result) => {
-      if (err) {
-        return res.status(500).json({ error: err.message });
-      }
+        if (err) {
+            return res.status(500).json({ error: err.message });
+        }
   
-      // Check if any row was updated (i.e., project exists)
-      if (result.affectedRows === 0) {
-        return res.status(404).json({ error: 'Project not found' });
-      }
+        // Check if any row was updated (i.e., project exists)
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ error: 'Project not found' });
+        }
   
-      // Return a success response with the updated projectId
-      res.status(200).json({
-        message: 'Project updated successfully',
-        projectId: id
-      });
+        // Insert a notification into the `notifications` table
+        const notificationQuery = `
+            INSERT INTO notifications (message, created_at) 
+            VALUES (?, NOW())
+        `;
+        const notificationMessage = `Project "${projectName}" has been updated.`;
+
+        con.query(notificationQuery, [notificationMessage], (notificationErr) => {
+            if (notificationErr) {
+                return res.status(500).json({ error: notificationErr.message });
+            }
+
+            // Return a success response with the updated projectId
+            res.status(200).json({
+                message: 'Project updated successfully, and notification added.',
+                projectId: id
+            });
+        });
     });
-  };
+};
   
   
 

@@ -8,7 +8,7 @@ const AddCategory = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        axios.post('http://localhost:3000/auth/add_category', {category})
+        axios.post(`${import.meta.env.VITE_BACKEND_URL}/auth/add_category`, {category})
         .then(result => {
             if(result.data.Status) {
                 navigate('/dashboard/category')

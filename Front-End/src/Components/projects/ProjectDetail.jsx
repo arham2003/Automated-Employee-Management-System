@@ -18,7 +18,7 @@ function ProjectDetail() {
   useEffect(() => {
     const fetchProjectData = async () => {
       try {
-        const response = await fetch(`http://localhost:3000/api/projects/${id}`);
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/projects/${id}`);
         if (!response.ok) {
           throw new Error("Failed to fetch project data");
         }
@@ -31,7 +31,7 @@ function ProjectDetail() {
 
         // Fetch project parts after loading the project details
         try {
-          const partsResponse = await fetch(`http://localhost:3000/project_parts/${id}`);
+          const partsResponse = await fetch(`${import.meta.env.VITE_BACKEND_URL}/project_parts/${id}`);
           if (!partsResponse.ok) {
             throw new Error("Failed to fetch project parts");
           }
@@ -74,7 +74,7 @@ function ProjectDetail() {
   // Handle deletion of a project part
   const handleDelete = async (partId) => {
     try {
-      const response = await axios.delete(`http://localhost:3000/api/project_parts/${partId}`);
+      const response = await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/api/project_parts/${partId}`);
       if (response.status === 200) {
         // Update the state to remove the deleted part
         setProjectParts(projectParts.filter((part) => part.part_id !== partId));

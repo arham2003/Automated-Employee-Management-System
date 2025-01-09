@@ -15,7 +15,7 @@ const SalaryForm = () => {
   useEffect(() => {
     const fetchEmployees = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/get_employee_salaries');
+        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/get_employee_salaries`);
         if (response.status === 200) {
           setEmployees(response.data);  // Assuming response data contains an array of employee names
         }
@@ -37,7 +37,7 @@ const SalaryForm = () => {
   // Check if salary has already been paid for the selected employee and salary date
   const checkIfPaid = async () => {
     try {
-      const response = await axios.get(`http://localhost:3000/check_payment_status`, {
+      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/check_payment_status`, {
         params: {
           empName,
           salaryDate: formatDate(salaryDate)
@@ -73,7 +73,7 @@ const SalaryForm = () => {
 
     try {
       // Send the form data to the backend
-      const response = await axios.post('http://localhost:3000/pay_salary', {
+      const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/pay_salary`, {
         empName,
         salary,
         bonus,  // Send bonus as part of the data

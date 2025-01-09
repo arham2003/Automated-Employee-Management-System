@@ -11,7 +11,7 @@ function Projects() {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const response = await fetch('http://localhost:3000/projects');  // Adjust your backend URL if needed
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/projects`);  // Adjust your backend URL if needed
         const data = await response.json();
         setProjects(data);
       } catch (error) {
@@ -30,7 +30,7 @@ function Projects() {
     const confirmDelete = window.confirm('Are you sure you want to delete this project and all its related parts?');
     if (confirmDelete) {
       try {
-        const response = await fetch(`http://localhost:3000/projects/${projectId}`, {
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/projects/${projectId}`, {
           method: 'DELETE',
         });
 

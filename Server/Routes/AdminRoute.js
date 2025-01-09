@@ -53,7 +53,6 @@ router.post('/add_category', (req, res) => {
     });
 });
 
-// image upload 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, 'Public/Images')
@@ -65,7 +64,6 @@ const storage = multer.diskStorage({
 const upload = multer({
     storage: storage
 })
-// end imag eupload 
 
 router.post('/check_email', (req, res) => {
     const { email } = req.body;
@@ -88,71 +86,77 @@ router.post('/check_email', (req, res) => {
   });
   
 
-router.post('/add_employee', upload.single('image'), (req, res) => {
-    const sql = `INSERT INTO employee 
-    (name, email, password, address, salary, image, department_id, post) 
-    VALUES (?)`;
-
-    bcrypt.hash(req.body.password, 10, (err, hash) => {
-        if (err) return res.json({ Status: false, Error: "Hashing Error" });
-
-        const categoryId = req.body.department_id || null;
-        const post = req.body.post || ''; // Default to an empty string if no post is provided
-
-        const values = [
-            req.body.name,
-            req.body.email,
-            hash,
-            req.body.address,
-            req.body.salary,
-            req.file.filename,
-            categoryId,
-            post  // Adding post to the values array
-        ];
-        con.query(sql, [values], (err, result) => {
-            if (err) return res.json({ Status: false, Error: err });
-           // Send email notification
-           const transporter = nodemailer.createTransport({
-              service: "gmail",
-              auth: {
-                user: process.env.EMAIL_USER, // Replace with your email
-                pass: process.env.EMAIL_PASS, // Replaced with app-specific password
-              },
-            });
-      
-            const mailOptions = {
-              from: process.env.EMAIL_USER,
-              to: req.body.email, // Employee's email
-              subject: "Welcome to the No. 1 Company! 🥳",
-              text: `Hi ${req.body.name},\n\nYour account has been created successfully.\n\nHere are your login details:\nEmail: ${req.body.email}\nPassword: ${req.body.password}\n\nPlease log in and change your password for security.\n\nBest regards,\nGray Coders`,
-            };
-      
-            transporter.sendMail(mailOptions, (error, info) => {
-              if (error) {
-                console.error("Error sending email:", error);
-                return res.json({ Status: false, Error: "Email not sent" });
-              }
-              console.log("Email sent: " + info.response);
-              return res.json({
-                Status: true,
-                Message: "Employee added and email sent successfully!",
-              });
-            });
-      
-            return res.json({ Status: true });
-           
-          });
-        });
+ router.post('/add_employee', upload.single('image'), async (req, res) => {
+    try {
+      const sql = `INSERT INTO employee 
+        (name, email, password, address, salary, image, department_id, post) 
+        VALUES (?)`;
+  
+      // Hash the password
+      const SALT_ROUNDS = 10;
+      const hashedPassword = await bcrypt.hash(req.body.password, SALT_ROUNDS);
+  
+      // Handle optional fields
+      const categoryId = req.body.department_id || null;
+      const post = req.body.post || '';
+      const imageFilename = req.file ? req.file.filename : ""; // If no file, set to null
+  
+      const values = [
+        req.body.name,
+        req.body.email,
+        hashedPassword,
+        req.body.address,
+        req.body.salary,
+        imageFilename,
+        categoryId,
+        post,
+      ];
+  
+      // Insert data into database
+      con.query(sql, [values], (err, result) => {
+        if (err) {
+          console.error('Database Error:', err);
+          return res.json({ Status: false, Error: err });
+        }
+  
+        // Send welcome email if configured
+        sendWelcomeEmail(req.body.name, req.body.email, req.body.password);
+  
+        return res.json({ Status: true, Message: 'Employee added successfully!' });
       });
+    } catch (err) {
+      console.error('Error adding employee:', err);
+      return res.json({ Status: false, Error: 'Internal server error' });
+    }
+  });
+  
+  // Helper function to send welcome email
+  const sendWelcomeEmail = (name, email, password) => {
+  
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS, 
+      },
+    });
+  
+    const mailOptions = {
+      from: process.env.EMAIL_USER,
+      to: email,
+      subject: 'Welcome to the No. 1 Company! 🥳',
+      text: `Hi ${name},\n\nYour account has been created successfully.\n\nHere are your login details:\nEmail: ${email}\nPassword: ${password}\n\nPlease log in and change your password for security.\n\nBest regards,\nGray Coders`,
+    };
+  
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.error('Error sending email:', error);
+      } else {
+        console.log('Email sent: ' + info.response);
+      }
+    });
+  };
 
-
-// router.get('/employee', (req, res) => {
-//     const sql = "SELECT * FROM employee";
-//     con.query(sql, (err, result) => {
-//         if(err) return res.json({Status: false, Error: "Query Error"})
-//         return res.json({Status: true, Result: result})
-//     })
-// })
 
 
 router.get('/employee', (req, res) => {

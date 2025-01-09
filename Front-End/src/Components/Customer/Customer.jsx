@@ -11,7 +11,7 @@ function Customer() {
   useEffect(() => {
     const fetchCustomers = async () => {
       try {
-        const response = await fetch('http://localhost:3000/get_allCustomers');
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/get_allCustomers`);
         const data = await response.json();
         
         if (Array.isArray(data.Result)) {
@@ -34,7 +34,7 @@ function Customer() {
 
   const handleDelete = async (customerId) => {
     try {
-      const response = await fetch(`http://localhost:3000/delete_customer/${customerId}`, {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/delete_customer/${customerId}`, {
         method: 'DELETE',
       });
   

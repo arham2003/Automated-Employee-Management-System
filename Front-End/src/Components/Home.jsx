@@ -29,7 +29,7 @@ const Home = () => {
   const displayToastOnce = () => {
     if (!localStorage.getItem('toastShown')) {
       toast('Hello Admin!', {
-        icon: '👏',
+        icon: '👋',
         style: {
           borderRadius: '10px',
           background: '#333',
@@ -41,7 +41,7 @@ const Home = () => {
   };
 
   const AdminRecords = () => {
-    axios.get('http://localhost:3000/auth/admin_records').then((result) => {
+    axios.get(`${import.meta.env.VITE_BACKEND_URL}/auth/admin_records`).then((result) => {
       if (result.data.Status) {
         setAdmins(result.data.Result);
       } else {
@@ -51,7 +51,7 @@ const Home = () => {
   };
 
   const adminCount = () => {
-    axios.get('http://localhost:3000/auth/admin_count').then((result) => {
+    axios.get(`${import.meta.env.VITE_BACKEND_URL}/auth/admin_count`).then((result) => {
       if (result.data.Status) {
         setAdminTotal(result.data.Result[0].admin);
       }
@@ -59,7 +59,7 @@ const Home = () => {
   };
 
   const employeeCount = () => {
-    axios.get('http://localhost:3000/auth/employee_count').then((result) => {
+    axios.get(`${import.meta.env.VITE_BACKEND_URL}/auth/employee_count`).then((result) => {
       if (result.data.Status) {
         setEmployeeTotal(result.data.Result[0].employee);
       }
@@ -67,7 +67,7 @@ const Home = () => {
   };
 
   const salaryCount = () => {
-    axios.get('http://localhost:3000/auth/salary_count').then((result) => {
+    axios.get(`${import.meta.env.VITE_BACKEND_URL}/auth/salary_count`).then((result) => {
       if (result.data.Status) {
         setSalaryTotal(result.data.Result[0].salaryOFEmp);
       } else {
@@ -77,7 +77,7 @@ const Home = () => {
   };
 
   const fetchTopEmployee = () => {
-    axios.get('http://localhost:3000/auth/top_employee').then((result) => {
+    axios.get(`${import.meta.env.VITE_BACKEND_URL}/auth/top_employee`).then((result) => {
         if (result.data.Status) {
             setTopEmployees(result.data.Result);  // Store the result as an array
         }

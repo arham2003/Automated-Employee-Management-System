@@ -14,7 +14,7 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchNotifications = async () => {
       try {
-        const response = await fetch("http://localhost:3000/notifications");
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/notifications`);
         const data = await response.json();
         setNotifications(data);
       } catch (error) {
@@ -28,7 +28,7 @@ const Dashboard = () => {
   // Clear Notifications
   const clearNotifications = async () => {
     try {
-      const response = await fetch("http://localhost:3000/delete_notifications", {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/delete_notifications`, {
         method: "DELETE",
       });
 
@@ -44,7 +44,7 @@ const Dashboard = () => {
   };
 
   const handleLogout = () => {
-    axios.get("http://localhost:3000/auth/logout").then((result) => {
+    axios.get(`${import.meta.env.VITE_BACKEND_URL}/auth/logout`).then((result) => {
       if (result.data.Status) {
         localStorage.removeItem("valid");
         localStorage.removeItem('toastShown');

@@ -26,7 +26,7 @@ const EmployeeDetail = () => {
 
     // Fetch employee details
     axios
-      .get(`http://localhost:3000/employee/detail/${effectiveEmployeeId}`)
+      .get(`${import.meta.env.VITE_BACKEND_URL}/employee/detail/${effectiveEmployeeId}`)
       .then((result) => {
         setEmployee(result.data[0]);
       })
@@ -36,7 +36,7 @@ const EmployeeDetail = () => {
     if (effectiveEmployeeId && month && year) {
       axios
         .get(
-          `http://localhost:3000/get_empContributions?year=${year}&month=${month}&employeeId=${effectiveEmployeeId}`
+          `${import.meta.env.VITE_BACKEND_URL}/get_empContributions?year=${year}&month=${month}&employeeId=${effectiveEmployeeId}`
         )
         .then((result) => {
           const contribution = result.data[0]?.total_contribution ?? 0;
@@ -57,7 +57,7 @@ const EmployeeDetail = () => {
 
     // Fetch approved project parts
     axios
-      .get(`http://localhost:3000/approved_parts?year=${year}&month=${month}`)
+      .get(`${import.meta.env.VITE_BACKEND_URL}/approved_parts?year=${year}&month=${month}`)
       .then((result) => {
         setApprovedParts(result.data);
       })
@@ -74,7 +74,7 @@ const EmployeeDetail = () => {
     const monthName = getMonthName(month);  // Convert to month name before sending
     console.log(employeeId, monthName, year);
 
-    axios.put('http://localhost:3000/update_bonus', {
+    axios.put(`${import.meta.env.VITE_BACKEND_URL}/update_bonus`, {
       employeeId,
       month: monthName,   // Send month as a string (e.g., "December")
       year
@@ -89,7 +89,7 @@ const EmployeeDetail = () => {
 
   const handleLogout = () => {
     axios
-      .get('http://localhost:3000/employee/logout')
+      .get(`${import.meta.env.VITE_BACKEND_URL}/employee/logout`)
       .then((result) => {
         if (result.data.Status) {
           localStorage.clear();

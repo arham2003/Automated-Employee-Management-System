@@ -15,7 +15,7 @@ const AddDepartment = () => {
 
     // Fetch employee data for the dropdown
     useEffect(() => {
-        axios.get('http://localhost:3000/get_all_employees')
+        axios.get(`${import.meta.env.VITE_BACKEND_URL}/get_all_employees`)
             .then(response => {
                 setEmployees(response.data); // Store the employee data
             })
@@ -38,7 +38,7 @@ const AddDepartment = () => {
             country,
         };
 
-        axios.post('http://localhost:3000/add_department', department)
+        axios.post(`${import.meta.env.VITE_BACKEND_URL}/add_department`, department)
             .then(result => {
                 if (result.data.Status) {
                     toast.success("Department added successfully!");

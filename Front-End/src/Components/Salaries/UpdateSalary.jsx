@@ -22,7 +22,7 @@ const UpdateSalary = ({ employee }) => {
 
     try {
       // Send the form data to the backend to update the salary
-      const response = await axios.put('http://localhost:3000/update_payment', {
+      const response = await axios.put(`${import.meta.env.VITE_BACKEND_URL}/update_payment`, {
         payment_id: paymentId, // Pass payment_id for the update query
         salary,
         bonus,

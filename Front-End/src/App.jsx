@@ -1,9 +1,6 @@
 
 import 'bootstrap/dist/css/bootstrap.min.css';
-// import { toast, ToastContainer } from "react-toastify";
-// import "react-toastify/dist/ReactToastify.css";
 import { Toaster } from 'react-hot-toast';
-
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Login from './Components/Login';
 import Dashboard from './Components/Dashboard';

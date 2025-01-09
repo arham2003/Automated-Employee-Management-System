@@ -15,7 +15,7 @@ const ProjectForm = () => {
 
   // Fetch customer data from the API
   useEffect(() => {
-    fetch('http://localhost:3000/get_allCustomers')
+    fetch(`${import.meta.env.VITE_BACKEND_URL}/get_allCustomers`)
       .then((response) => response.json())
       .then((data) => {
         console.log('Customers fetched:', data);
@@ -43,7 +43,7 @@ const ProjectForm = () => {
     console.log('Form Data Submitted:', formData);  // Debugging step
 
     // Send a POST request with the form data
-fetch('http://localhost:3000/projects/add', {
+fetch(`${import.meta.env.VITE_BACKEND_URL}/projects/add`, {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',

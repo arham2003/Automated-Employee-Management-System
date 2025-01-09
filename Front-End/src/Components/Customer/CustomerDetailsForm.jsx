@@ -77,10 +77,10 @@ function CustomerDetailForm({ customer, onFormSubmit }) {
       let response;
       if (customer) {
         // Editing existing customer
-        response = await axios.put(`http://localhost:3000/edit_customer/${customer.customer_id}`, customerData);
+        response = await axios.put(`${import.meta.env.VITE_BACKEND_URL}/edit_customer/${customer.customer_id}`, customerData);
       } else {
         // Adding new customer
-        response = await axios.post('http://localhost:3000/add_customer', customerData);
+        response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/add_customer`, customerData);
       }
 
       if (response.data.Status) {

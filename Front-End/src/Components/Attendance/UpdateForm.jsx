@@ -14,7 +14,7 @@ const UpdateForm = () => {
         if (!date) return;
 
         axios
-            .get(`http://localhost:3000/get_attendanceByDate?date=${date}`)
+            .get(`${import.meta.env.VITE_BACKEND_URL}/get_attendanceByDate?date=${date}`)
             .then((response) => {
                 const data = response.data;
 
@@ -48,7 +48,7 @@ const UpdateForm = () => {
         }));
 
         axios
-            .put('http://localhost:3000/update_attendance', { date, attendance: updatedAttendance })
+            .put(`${import.meta.env.VITE_BACKEND_URL}/update_attendance`, { date, attendance: updatedAttendance })
             .then(() => {
                 alert('Attendance Updated successfully!');
             })
@@ -63,7 +63,7 @@ const UpdateForm = () => {
 
     const handleDeleteAttendance = () => {
         axios
-            .delete('http://localhost:3000/delete_attendance', { data: { date } })
+            .delete(`${import.meta.env.VITE_BACKEND_URL}/delete_attendance`, { data: { date } })
             .then((response) => {
                 alert('Attendance records deleted successfully!');
                 setDate('');

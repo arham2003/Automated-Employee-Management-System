@@ -5,7 +5,7 @@ import AddDepartment from './AddDepartmentForm';
 const handleDeleteClick = (departmentId) => {
     const confirmDelete = window.confirm('Are you sure you want to delete this department?');
     if (confirmDelete) {
-        axios.delete(`http://localhost:3000/delete_department/${departmentId}`)
+        axios.delete(`${import.meta.env.VITE_BACKEND_URL}/delete_department/${departmentId}`)
             .then(() => {
                 setDepartments(departments.filter(department => department.department_id !== departmentId));
                 alert('Department deleted successfully!');
@@ -32,7 +32,7 @@ const Departments = () => {
 
     // Fetch departments data from the API
     useEffect(() => {
-        axios.get('http://localhost:3000/get_all_departments')
+        axios.get(`${import.meta.env.VITE_BACKEND_URL}/get_all_departments`)
             .then((response) => {
                 setDepartments(response.data);
             })
@@ -43,7 +43,7 @@ const Departments = () => {
 
     // Fetch employees data for department head mapping
     useEffect(() => {
-        axios.get('http://localhost:3000/get_all_employees')
+        axios.get(`${import.meta.env.VITE_BACKEND_URL}/get_all_employees`)
             .then((response) => {
                 setEmployees(response.data);
             })
@@ -74,7 +74,7 @@ const Departments = () => {
     // Handle Save Edit
     const handleSaveEdit = () => {
         // Call API to save edited department
-        axios.put(`http://localhost:3000/update_department/${editDepartment.department_id}`, editDepartment)
+        axios.put(`${import.meta.env.VITE_BACKEND_URL}/update_department/${editDepartment.department_id}`, editDepartment)
             .then((response) => {
                 // Update the department in the list
                 setDepartments(departments.map(dep => dep.department_id === editDepartment.department_id ? editDepartment : dep));
@@ -94,7 +94,7 @@ const Departments = () => {
     const handleDeleteClick = (departmentId) => {
         const confirmDelete = window.confirm('Are you sure you want to delete this department?');
         if (confirmDelete) {
-            axios.delete(`http://localhost:3000/delete_department/${departmentId}`)
+            axios.delete(`${import.meta.env.VITE_BACKEND_URL}/delete_department/${departmentId}`)
                 .then(() => {
                     setDepartments(departments.filter(department => department.department_id !== departmentId));
                 })

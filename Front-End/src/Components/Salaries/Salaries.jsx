@@ -15,7 +15,7 @@ const SalaryTracker = () => {
   useEffect(() => {
     const fetchEmployeeData = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/get_empPayments`, {
+        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/get_empPayments`, {
           params: { 
             month: selectedMonth, 
             year: selectedYear 
@@ -55,7 +55,7 @@ const SalaryTracker = () => {
   const deleteSalary = async (paymentId) => {
     try {
       // Send DELETE request to the backend to delete the employee's salary record by payment_id
-      await axios.delete(`http://localhost:3000/delete_payment/${paymentId}`);
+      await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/delete_payment/${paymentId}`);
       
       // Update the state by removing the deleted employee from the list
       setEmployees((prevEmployees) =>

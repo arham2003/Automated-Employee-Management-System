@@ -16,7 +16,7 @@ const AttendanceForm = () => {
     // Fetch employee data from API using Axios
     useEffect(() => {
         axios
-            .get('http://localhost:3000/auth/employee') // Update the URL to match your backend port (5000)
+            .get(`${import.meta.env.VITE_BACKEND_URL}/auth/employee`) // Update the URL to match your backend port (5000)
             .then((response) => {
                 if (response.data.Status) {
                     setEmployees(response.data.Result); // Set employee data from response
@@ -67,7 +67,7 @@ const AttendanceForm = () => {
 
         // Make API call to submit the attendance data
         axios
-            .post('http://localhost:3000/submit_attendance', attendancePayload) // Match backend port (5000)
+            .post(`${import.meta.env.VITE_BACKEND_URL}/submit_attendance`, attendancePayload) // Match backend port (5000)
             .then((response) => {
                 console.log('Response from server:', response.data); // Log the server response
                 alert('Attendance submitted successfully!');

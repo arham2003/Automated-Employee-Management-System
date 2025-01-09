@@ -18,7 +18,7 @@ const AssignedWork = () => {
 
     // Fetch assigned work data when the component mounts
     axios
-      .get(`http://localhost:3000/employee_detail/${id}/assigned_work`)
+      .get(`${import.meta.env.VITE_BACKEND_URL}/employee_detail/${id}/assigned_work`)
       .then((response) => {
         if (response.data.Status) {
           setAssignedWork(response.data.Result); // Use the "Result" key to get the data
@@ -37,7 +37,7 @@ const AssignedWork = () => {
   // Function to load project part details by ID
   const fetchPartDetails = (partId) => {
     axios
-      .get(`http://localhost:3000/get_projectpart/${partId}`)
+      .get(`${import.meta.env.VITE_BACKEND_URL}/get_projectpart/${partId}`)
       .then((response) => {
         if (response.data) {
           setPartDetails(response.data); // Set the project part details
@@ -56,7 +56,7 @@ const AssignedWork = () => {
     console.log("Current Date:", currentDate);
 
     axios
-      .post(`http://localhost:3000/mark_present/37?date=${currentDate}`)
+      .post(`${import.meta.env.VITE_BACKEND_URL}/mark_present/37?date=${currentDate}`)
       .then((response) => {
         console.log("Response:", response); // Log response
         alert("Attendance marked as present!");
@@ -97,7 +97,7 @@ const AssignedWork = () => {
 
     // First, submit the URL to the backend
     axios
-      .post("http://localhost:3000/submit_work", data)
+      .post(`${import.meta.env.VITE_BACKEND_URL}/submit_work`, data)
       .then((response) => {
         if (response.data.Status) {
           alert("URL submitted successfully");
@@ -105,7 +105,7 @@ const AssignedWork = () => {
           // After URL is successfully submitted, update the status to 'Submitted'
           axios
             .put(
-              `http://localhost:3000/update_projectPart_status/${selectedPartId}`
+              `${import.meta.env.VITE_BACKEND_URL}/update_projectPart_status/${selectedPartId}`
             )
             .then((updateResponse) => {
               if (updateResponse.data.Status) {

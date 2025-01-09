@@ -21,7 +21,7 @@ const EditProjectPhase = ({ phase, onUpdate }) => {
   useEffect(() => {
     const fetchEmployees = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/auth/employee');
+        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/auth/employee`);
         setEmployees(response.data.Result);
       } catch (error) {
         console.error('Error fetching employees:', error.message);
@@ -67,7 +67,7 @@ const EditProjectPhase = ({ phase, onUpdate }) => {
   
     try {
       const response = await axios.put(
-        `http://localhost:3000/update_projectpart/${phase.part_id}`,
+        `${import.meta.env.VITE_BACKEND_URL}/update_projectpart/${phase.part_id}`,
         {
           phaseName: formData.phaseName,
           startDate: formData.startDate,

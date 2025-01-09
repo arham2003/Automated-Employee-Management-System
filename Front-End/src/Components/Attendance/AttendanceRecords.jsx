@@ -15,7 +15,7 @@ const AttendanceRecords = () => {
     // Fetch employee data on component mount
     useEffect(() => {
         axios
-            .get('http://localhost:3000/auth/employee')
+            .get(`${import.meta.env.VITE_BACKEND_URL}/auth/employee`)
             .then((response) => {
                 if (response.data.Status) {
                     setEmployees(response.data.Result); // Set employee data from response
@@ -56,7 +56,7 @@ const AttendanceRecords = () => {
         console.log("Month",month)
 
         // Make a request to get attendance records for the selected month
-        axios.get(`http://localhost:3000/get_attendanceByMonth?month=${month}`)
+        axios.get(`${import.meta.env.VITE_BACKEND_URL}/get_attendanceByMonth?month=${month}`)
             .then((response) => {
                 if (response.status === 200) {
                     setAttendanceRecords(response.data); // Set attendance records

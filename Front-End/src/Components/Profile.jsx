@@ -15,7 +15,7 @@ const SubmittedWork = () => {
     setLoading(true);
     setError('');
     
-    axios.get('http://localhost:3000/get_submittedWork', {
+    axios.get(`${import.meta.env.VITE_BACKEND_URL}/get_submittedWork`, {
       params: {
         year: selectedYear,
         month: selectedMonth
@@ -41,7 +41,7 @@ const SubmittedWork = () => {
   const handleStatusChange = (partId, status) => {
     console.log("Data",partId,status)
     // Send updated status to the backend
-    axios.put('http://localhost:3000/update_submission_status', {
+    axios.put(`${import.meta.env.VITE_BACKEND_URL}/update_submission_status`, {
       part_id: partId,
       status: status
     })

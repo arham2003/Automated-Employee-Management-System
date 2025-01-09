@@ -11,16 +11,33 @@ import { addDepartment, deleteDepartment, getAllDepartments, getAllEmployees, up
 import { deleteAttendance, getAttendanceByDate, getAttendanceByEmpIdAndDate, getAttendanceByMonth, submitAttendance, updateAttendance } from "./Routes/attendance/attendance.js";
 import { addSubmission, getEmployeeProjectParts, updateProjectPartStatusById } from "./Routes/EmployeePanel/AssignedWork.js";
 import { getEmployeeAttendance, markAttendanceAsPresent } from "./Routes/EmployeePanel/EmpAttendance.js";
-import { checkPaymentStatus, deletePayment, getEmployeePayments, getEmployeeSalaries, getPayments, paySalary, updateEmployeeBonus, updatePayment } from "./Routes/Salaries/salaries.js";
+import { checkPaymentStatus, getEmployeePayments, getEmployeeSalaries, getPayments, paySalary } from "./Routes/Salaries/salaries.js";
 import { getWorkSubmissions, updateSubmissionStatus } from "./Routes/SubmittedWork/SubmittedWork.js";
 import { getApprovedProjectParts, getEmployeeContribution } from "./Routes/EmployeePanel/Dashboard.js";
 
 const app = express() 
-app.use(cors({
-    origin: ["http://localhost:5173"],
-    methods: ['GET', 'POST', 'PUT', "DELETE"],
-    credentials: true
-}))
+
+
+
+const allowedOrigins = [
+    "http://localhost:3000", // Local development
+    "https://employee-ms-with-react.vercel.app", // Deployed frontend
+    "https://employee-ms-with-react.onrender.com",
+  ];
+  
+  app.use(cors({
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: 'Content-Type,Authorization',
+    credentials: true,
+  }));
+  
 app.use(express.json())
 // app.use(bodyParser.json());
 app.use(cookieParser())
@@ -42,6 +59,24 @@ const verifyUser = (req, res, next) => {
     }
 }
 // -----------------------------------------------------------------------------------
+app.get('/', (req, res) => {
+  res.send("API is running. Use the defined routes to interact with the server.");
+});
+
+app.get('/dashboard/employee', (req, res) => {
+  res.json({ message: "Admin Dashboard" });
+});
+
+app.delete('/auth/delete_employee/:id', (req, res) => {
+  const id = req.params.id;
+  const sql = "DELETE FROM employee WHERE id = ?";
+  con.query(sql, [id], (err, result) => {
+      if (err) return res.json({ Status: false, Error: "Query Error" + err });
+      return res.json({ Status: true, Result: result });
+  });
+});
+
+
 app.get('/project_parts', getAllProjectParts);  // Fetch all project parts
 app.get('/project_parts/:projectId', getProjectPartsByProjectId);
 app.get('/api/projects/:id', getProjectById);
@@ -95,9 +130,6 @@ app.post('/pay_salary', paySalary); // Endpoint to submit salary data
 app.get('/get_payments', getPayments); // Endpoint to get all payment records
 app.get('/check_payment_status',checkPaymentStatus)
 app.get('/get_empPayments',getEmployeePayments)
-app.put('/update_bonus',updateEmployeeBonus)
-app.delete('/delete_payment/:paymentId',deletePayment)
-app.put('/update_payment',updatePayment)
 
 // Submitted Work
 app.get('/get_submittedWork',getWorkSubmissions)
@@ -114,6 +146,8 @@ app.get('/verify',verifyUser, (req, res)=> {
     return res.json({Status: true, role: req.role, id: req.id})
 } )
 
-app.listen(3000, () => {
-    console.log("Server is running")
-})
+
+  const PORT = 3000;
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});
