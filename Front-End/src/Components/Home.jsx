@@ -173,7 +173,6 @@ const Home = () => {
                 <td>{a.email}</td>
                 <td>
                   <button className="btn btn-info btn-sm me-2">Edit</button>
-                  <button className="btn btn-warning btn-sm">Delete</button>
                 </td>
               </tr>
             ))}
