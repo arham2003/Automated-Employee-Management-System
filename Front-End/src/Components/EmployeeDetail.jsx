@@ -3,6 +3,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate, Link, useParams } from 'react-router-dom';
 import { useEmployee } from './EmployeePanel/EmployeeContext';
 import './EmployeeDetail.css';
+import {toast} from "react-hot-toast"
 
 const EmployeeDetail = () => {
   const [employee, setEmployee] = useState(null);
