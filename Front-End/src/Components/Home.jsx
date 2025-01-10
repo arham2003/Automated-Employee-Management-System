@@ -125,41 +125,50 @@ const Home = () => {
   };
 
   return (
-    <div>
-      <div className="p-3 d-flex justify-content-around mt-3">
-        <div className="px-3 pt-2 pb-3 border shadow-sm w-25">
-          <div className="text-center pb-1">
-            <h4>Admin</h4>
-          </div>
-          <hr />
-          <div className="d-flex justify-content-between">
-            <h5>Total:</h5>
-            <h5>{adminTotal}</h5>
-          </div>
-        </div>
-        <div className="px-3 pt-2 pb-3 border shadow-sm w-25">
-          <div className="text-center pb-1">
-            <h4>Employee</h4>
-          </div>
-          <hr />
-          <div className="d-flex justify-content-between">
-            <h5>Total:</h5>
-            <h5>{employeeTotal}</h5>
+    <div className="container">
+      {/* Cards Section */}
+      <div className="row p-3 mt-3 g-3">
+        <div className="col-12 col-md-4">
+          <div className="px-3 pt-2 pb-3 border shadow-sm">
+            <div className="text-center pb-1">
+              <h4>Admin</h4>
+            </div>
+            <hr />
+            <div className="d-flex justify-content-between">
+              <h5>Total:</h5>
+              <h5>{adminTotal}</h5>
+            </div>
           </div>
         </div>
-        <div className="px-3 pt-2 pb-3 border shadow-sm w-25">
-          <div className="text-center pb-1">
-            <h4>Salary</h4>
+        <div className="col-12 col-md-4">
+          <div className="px-3 pt-2 pb-3 border shadow-sm">
+            <div className="text-center pb-1">
+              <h4>Employee</h4>
+            </div>
+            <hr />
+            <div className="d-flex justify-content-between">
+              <h5>Total:</h5>
+              <h5>{employeeTotal}</h5>
+            </div>
           </div>
-          <hr />
-          <div className="d-flex justify-content-between">
-            <h5>Total:</h5>
-            <h5>${salaryTotal}</h5>
+        </div>
+        <div className="col-12 col-md-4">
+          <div className="px-3 pt-2 pb-3 border shadow-sm">
+            <div className="text-center pb-1">
+              <h4>Salary</h4>
+            </div>
+            <hr />
+            <div className="d-flex justify-content-between">
+              <h5>Total:</h5>
+              <h5>${salaryTotal}</h5>
+            </div>
           </div>
         </div>
       </div>
+  
+      {/* Admin List */}
       <div className="mt-4 px-5 pt-3">
-        <h3 className='text-center'>List of Admins</h3>
+        <h3 className="text-center">List of Admins</h3>
         <table className="table">
           <thead>
             <tr>
@@ -179,28 +188,36 @@ const Home = () => {
           </tbody>
         </table>
       </div>
+  
+      {/* Charts Section */}
       <div className="mt-4 px-5 pt-3">
-        <h3 className='text-center'>Stats</h3>
-        <div className="d-flex justify-content-around mt-4">
-          <div className="w-50">
-            <Bar data={barData} />
+        <h3 className="text-center">Stats</h3>
+        <div className="row mt-4 g-3">
+          <div className="col-12 col-md-6">
+            <div className="chart-container">
+              <Bar data={barData} />
+            </div>
           </div>
-          <div className="w-25">
-            <Pie data={pieData} />
+          <div className="col-12 col-md-6">
+            <div className="chart-container">
+              <Pie data={pieData} />
+            </div>
           </div>
         </div>
         <div className="mt-4 px-5 pt-3">
-    <h3 className="text-center">Top Employees with Highest Salaries</h3>
-    <div className="d-flex justify-content-around mt-4">
-          <div className="w-50">
-            <Bar data={barData2} />
+          <h3 className="text-center">Top Employees with Highest Salaries</h3>
+          <div className="row mt-4 g-3">
+            <div className="col-12">
+              <div className="chart-container">
+                <Bar data={barData2} />
+              </div>
+            </div>
           </div>
+        </div>
       </div>
     </div>
-    </div>
-    </div>
   );
-};
+}  
 
 
 

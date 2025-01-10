@@ -72,3 +72,15 @@
     height: 300px;
     border-radius: 50%;
 }
+
+.chart-container {
+  max-width: 100%;
+  height: auto;
+}
+
+@media (max-width: 768px) {
+  .chart-container canvas {
+    width: 100% !important;
+    height: auto !important;
+  }
+}
