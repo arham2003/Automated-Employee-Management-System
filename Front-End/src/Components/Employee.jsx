@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
+import { toast } from "react-hot-toast";
 const Employee = () => {
   const [employee, setEmployee] = useState([]);
   const navigate = useNavigate();
@@ -13,7 +13,7 @@ const Employee = () => {
         if (result.data.Status) {
           setEmployee(result.data.Result);
         } else {
-          alert(result.data.Error);
+          toast.error(result.data.Error);
         }
       })
       .catch((err) => console.log(err));
@@ -26,7 +26,7 @@ const Employee = () => {
         if (result.data.Status) {
           window.location.reload();
         } else {
-          alert(result.data.Error);
+          toast.error(result.data.Error);
         }
       })
       .catch((err) => console.log(err));
@@ -62,7 +62,7 @@ const Employee = () => {
 
                 <td>
                   <img
-                    src={`http://localhost:3000/Images/` + e.image}
+                    src={`${import.meta.env.VITE_BACKEND_URL}/Images/` + e.image}
                     className="employee_image"
                     alt="Employee"
                   />

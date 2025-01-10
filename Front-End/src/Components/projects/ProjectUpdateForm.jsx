@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { toast } from "react-hot-toast";
 
 function ProjectUpdateForm({ project }) {
   const [updatedProject, setUpdatedProject] = useState({
@@ -27,7 +28,7 @@ function ProjectUpdateForm({ project }) {
     const { id, projectName, startDate, expectedDate, budget, status } = updatedProject;
 
     if (!id || !projectName || !startDate || !expectedDate || !budget || !status) {
-      alert("All fields are required");
+      toast.error("All fields are required");
       return;
     }
 
@@ -47,7 +48,7 @@ function ProjectUpdateForm({ project }) {
       if (response.status === 200) {
         console.log("Project updated successfully");
         // Alert when the project is successfully updated
-        alert("Project updated successfully!");
+        toast.success("Project updated successfully!");
       }
     } catch (error) {
       console.error("Error updating project:", error.response?.data || error.message);

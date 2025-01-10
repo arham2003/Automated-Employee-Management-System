@@ -50,6 +50,19 @@ const AssignedWork = () => {
         setError("Error fetching project part details.");
       });
   };
+  const handleLogout = () => {
+    axios
+      .get(`${import.meta.env.VITE_BACKEND_URL}/employee/logout`)
+      .then((result) => {
+        if (result.data.Status) {
+          localStorage.removeItem('toastShown');
+          localStorage.removeItem('employeeId')
+          navigate("/") 
+        }
+      })
+      .catch((err) => console.log(err));
+  };
+
   const markAttendance = () => {
     const currentDate = new Date().toISOString().split("T")[0];
     console.log("In markAttendance");
@@ -150,37 +163,31 @@ const AssignedWork = () => {
 
   return (
     <div className="employee-page">
-      {/* Header */}
-      <div className="p-2 d-flex justify-content-center shadow header">
-        <h4>Employee Management System</h4>
-      </div>
-
-      {/* Layout with Sidebar and Main Content */}
-      <div className="d-flex">
-        {/* Sidebar */}
-        <div className="sidebar">
-          <ul className="sidebar-menu">
-            <li>
-              <Link to="/">Dashboard</Link>
-            </li>
-            <li>
-              <Link to={`/employee_detail/${id}/assigned_work`}>
-                Assigned Work
-              </Link>
-            </li>
-            <li>
-              <Link
-                to={`/employee_detail/${id || contextEmployeeId}/attendance`}
-              >
-                Attendance
-              </Link>
-            </li>{" "}
-            {/* Added Attendance Link */}
-            <li>
-              <Link to="/">Logout</Link>
-            </li>
-          </ul>
-        </div>
+          <div className="p-2 d-flex justify-content-center shadow header bg-secondary bg-gradient">
+            <h4>
+              <i className="bi bi-building-gear"> </i>
+              Employee Management System
+            </h4>
+          </div>
+          <div className="d-flex">
+            <div className="sidebar bg-dark bg-gradient">
+              <ul className="sidebar-menu">
+                <li>
+                  <Link to="/">Dashboard</Link>
+                </li>
+                <li>
+                  <Link to={`/employee_detail/${id || contextEmployeeId}/assigned_work`}>Assigned Work</Link>
+                </li>
+                <li>
+                  <Link to={`/employee_detail/${id || contextEmployeeId}/attendance`}>Attendance</Link>
+                </li>
+                <li>
+                  <Link to="/" onClick={handleLogout}>
+                    Logout
+                  </Link>
+                </li>
+              </ul>
+            </div>
 
         {/* Main Content */}
         <div className="content flex-grow-1">

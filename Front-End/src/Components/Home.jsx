@@ -45,7 +45,7 @@ const Home = () => {
       if (result.data.Status) {
         setAdmins(result.data.Result);
       } else {
-        alert(result.data.Error);
+        toast.error(result.data.Error);
       }
     });
   };
@@ -71,7 +71,7 @@ const Home = () => {
       if (result.data.Status) {
         setSalaryTotal(result.data.Result[0].salaryOFEmp);
       } else {
-        alert(result.data.Error);
+        toast.error(result.data.Error);
       }
     });
   };

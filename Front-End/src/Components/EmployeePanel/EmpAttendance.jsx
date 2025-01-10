@@ -67,6 +67,19 @@ const EmpAttendance = () => {
 
   const allDays = generateDaysInMonth(selectedMonth, selectedYear);
 
+
+  const handleLogout = () => {
+    axios
+      .get(`${import.meta.env.VITE_BACKEND_URL}/employee/logout`)
+      .then((result) => {
+        if (result.data.Status) {
+          localStorage.removeItem('toastShown');
+          localStorage.removeItem('employeeId')
+          navigate("/") 
+        }
+      })
+      .catch((err) => console.log(err));
+  };
   // Function to mark attendance as present
   const markAttendance = (date) => {
     const formattedDate = `${selectedYear}-${selectedMonth.toString().padStart(2, '0')}-${date.toString().padStart(2, '0')}`;
@@ -87,18 +100,31 @@ const EmpAttendance = () => {
 
   return (
     <div className="employee-page">
-      <div className="p-2 d-flex justify-content-center shadow header">
-        <h4>Employee Management System</h4>
-      </div>
-      <div className="d-flex">
-        <div className="sidebar">
-          <ul className="sidebar-menu">
-            <li><Link to="/">Dashboard</Link></li>
-            <li><Link to={`/employee_detail/${employeeId}/assigned_work`}>Assigned Work</Link></li>
-            <li><Link to={`/employee_detail/${employeeId}/attendance`}>Attendance</Link></li>
-            <li><Link to="/" onClick={() => navigate('/logout')}>Logout</Link></li>
-          </ul>
-        </div>
+          <div className="p-2 d-flex justify-content-center shadow header bg-secondary bg-gradient">
+            <h4>
+              <i className="bi bi-building-gear"> </i>
+              Employee Management System
+            </h4>
+          </div>
+          <div className="d-flex">
+            <div className="sidebar bg-dark bg-gradient">
+              <ul className="sidebar-menu">
+                <li>
+                  <Link to="/">Dashboard</Link>
+                </li>
+                <li>
+                  <Link to={`/employee_detail/${employeeId || contextEmployeeId}/assigned_work`}>Assigned Work</Link>
+                </li>
+                <li>
+                  <Link to={`/employee_detail/${employeeId || contextEmployeeId}/attendance`}>Attendance</Link>
+                </li>
+                <li>
+                  <Link to="/" onClick={handleLogout}>
+                    Logout
+                  </Link>
+                </li>
+              </ul>
+            </div>
 
         <div className="content flex-grow-1">
           <div className="attendance-container">

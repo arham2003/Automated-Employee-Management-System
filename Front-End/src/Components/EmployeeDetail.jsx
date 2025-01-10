@@ -15,6 +15,21 @@ const EmployeeDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
+  const displayToastOnce = () => {
+    if (!localStorage.getItem('toastShown')) {
+      toast('Hello Employee!', {
+        icon: '👋',
+        style: {
+          borderRadius: '10px',
+          background: '#333',
+          color: '#fff',
+        },
+      });
+      localStorage.setItem('toastShown', 'true');
+    }
+  };
+
+
   useEffect(() => {
     const effectiveEmployeeId = id || contextEmployeeId;
     console.log('Current bonusLimit:', bonusLimit.current);  // Access the current value of bonusLimit
@@ -29,6 +44,7 @@ const EmployeeDetail = () => {
       .get(`${import.meta.env.VITE_BACKEND_URL}/employee/detail/${effectiveEmployeeId}`)
       .then((result) => {
         setEmployee(result.data[0]);
+        displayToastOnce();
       })
       .catch((err) => console.log(err));
 
@@ -92,8 +108,9 @@ const EmployeeDetail = () => {
       .get(`${import.meta.env.VITE_BACKEND_URL}/employee/logout`)
       .then((result) => {
         if (result.data.Status) {
-          localStorage.clear();
-          window.location.href = '/';
+          localStorage.removeItem('toastShown');
+          localStorage.removeItem('employeeId')
+          navigate("/") 
         }
       })
       .catch((err) => console.log(err));

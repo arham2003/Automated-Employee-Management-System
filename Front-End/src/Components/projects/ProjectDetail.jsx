@@ -4,6 +4,7 @@ import { Table, Button, Modal } from "react-bootstrap";
 import ProjectForm from "./ProjectUpdateForm"; // Import the ProjectForm component
 import axios from "axios"; // Axios for making API calls
 import ProjectPhase from "./ProjectPhase"; // Import the ProjectPhase component
+import { toast } from "react-hot-toast";
 
 function ProjectDetail() {
   const { id } = useParams(); // Get the project ID from URL params
@@ -78,13 +79,13 @@ function ProjectDetail() {
       if (response.status === 200) {
         // Update the state to remove the deleted part
         setProjectParts(projectParts.filter((part) => part.part_id !== partId));
-        alert("Project part deleted successfully");
+        toast.success("Project part deleted successfully");
       } else {
-        alert("Failed to delete project part");
+        toast.error("Failed to delete project part");
       }
     } catch (error) {
       console.error("Error deleting project part", error);
-      alert("Error deleting project part");
+      toast.error("Error deleting project part");
     }
   };
 
@@ -123,7 +124,6 @@ function ProjectDetail() {
             </Modal.Body>
             <Modal.Footer>
               <Button variant="secondary" onClick={handleCloseProjectModal}>Close</Button>
-              <Button variant="primary" onClick={handleCloseProjectModal}>Save Changes</Button>
             </Modal.Footer>
           </Modal>
 

@@ -20,7 +20,7 @@ const app = express()
 
 
 const allowedOrigins = [
-    "http://localhost:3000", // Local development
+    "http://localhost:5174", // Local development
     "https://automated-employee-management-system.vercel.app/",
     "https://automated-employee-management-system.vercel.app", // Deployed frontend
     "https://automated-employee-management-system.onrender.com/",
@@ -67,15 +67,6 @@ app.get('/', (req, res) => {
 
 app.get('/dashboard/employee', (req, res) => {
   res.json({ message: "Admin Dashboard" });
-});
-
-app.delete('/auth/delete_employee/:id', (req, res) => {
-  const id = req.params.id;
-  const sql = "DELETE FROM employee WHERE id = ?";
-  con.query(sql, [id], (err, result) => {
-      if (err) return res.json({ Status: false, Error: "Query Error" + err });
-      return res.json({ Status: true, Result: result });
-  });
 });
 
 

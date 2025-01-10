@@ -1,7 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-// import { toast, ToastContainer } from "react-toastify";
 import { toast } from 'react-hot-toast';
 
   const AddEmployee = () => {
